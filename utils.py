@@ -33,7 +33,7 @@ def process_data(data_path):
     输入是 csv + img
     """
     data_list = []
-    img_base = os.path.join(data_path, "imgs")
+    img_base = os.path(data_path)  # since imgs path is included in csv
     data = pd.read_csv(os.path.join(data_path, "en.csv"))
     n = data.shape[0]
     cnt = 0
