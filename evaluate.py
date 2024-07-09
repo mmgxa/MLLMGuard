@@ -140,16 +140,17 @@ def main(args):
             evaluate(gemini, args, data)
 
     else:
-        if "llava" in model_name:
-            from models.llava_inference import Llava
-
-            llava = Llava(args.model)
-            evaluate_model(llava, args, data)
-        elif "tinyllava" in model_name:
+        if "tinyllava" in model_name:
             from models.tinyllava_inference import TinyLlava
 
             tinyllava = TinyLlava(args.model)
             evaluate_model(tinyllava, args, data)
+        elif "llava" in model_name:
+            from models.llava_inference import Llava
+
+            llava = Llava(args.model)
+            evaluate_model(llava, args, data)
+
         elif "qwen-vl" in model_name:
             from models.qwen import QwenVL
 
@@ -216,6 +217,6 @@ def main(args):
 
 if __name__ == "__main__":
     args = get_args()
-    wandb.init(project=args.project_name, entity=args.entity_name, config=args)
+    # wandb.init(project=args.project_name, entity=args.entity_name, config=args)
     main(args)
     seed_all(5555)
