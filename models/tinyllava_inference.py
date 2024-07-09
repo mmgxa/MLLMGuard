@@ -10,10 +10,13 @@ class TinyLlava(Mllm):
 
     def __init__(self, model_name_or_path, **kwargs):
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name_or_path, torch_dtype=torch.float16, trust_remote_code=True
+            model_name_or_path,
+            torch_dtype=torch.float16,
+            device_map="cuda",
+            trust_remote_code=True,
         )
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model.to(self.device)
+        # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # self.model.to(self.device)
         self.config = self.model.config
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name_or_path,
