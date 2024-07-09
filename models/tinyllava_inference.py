@@ -26,8 +26,7 @@ class TinyLlava(Mllm):
         )
 
     def evaluate(self, prompt, filepath):
-        image = Image.open(filepath)
-        output_text, genertaion_time = self.model.chat(
-            prompt=prompt, image=image, tokenizer=self.tokenizer
+        output_text, generation_time = self.model.chat(
+            prompt=prompt, image=filepath, tokenizer=self.tokenizer
         )
         return output_text
