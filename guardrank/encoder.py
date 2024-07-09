@@ -142,7 +142,7 @@ class RobertaLargeClassifier(nn.Module):
         super().__init__(*args, **kwargs)
         self.roberta = RobertaModel.from_pretrained(
             model_name_or_path,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.float32,
             device_map="cuda",
         )
         self.dropout = nn.Dropout(dropout)
