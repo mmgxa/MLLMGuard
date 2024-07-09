@@ -17,5 +17,5 @@ do
     python evaluate.py --model $MODEL_PATH \
                     --save_path "$save_path" \
                     --data_path "data/${category}" \
-                    --log_file "logs/evaluate-${category}_${MODEL_NAME}.log" \
+                    --log_file "logs/evaluate-${category}_${MODEL_NAME}.log"
 done
