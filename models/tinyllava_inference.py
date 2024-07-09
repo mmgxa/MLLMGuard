@@ -6,7 +6,7 @@ from PIL import Image
 from models.base import Mllm
 
 
-class Llava(Mllm):
+class TinyLlava(Mllm):
 
     def __init__(self, model_name_or_path, **kwargs):
         self.model = AutoModelForCausalLM.from_pretrained(
@@ -15,7 +15,7 @@ class Llava(Mllm):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
         self.config = self.model.config
-        tokenizer = AutoTokenizer.from_pretrained(
+        self.tokenizer = AutoTokenizer.from_pretrained(
             model_name_or_path,
             use_fast=False,
             model_max_length=self.config.tokenizer_model_max_length,
