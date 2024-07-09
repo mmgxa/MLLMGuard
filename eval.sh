@@ -2,7 +2,7 @@ MODEL_PATH="$1"
 MODEL_NAME="$2"
 
 
-categories=("privacy" "bias" "toxicity" "non-exisitent" "position-swapping" "noise-injection" "legality")
+categories=("privacy" "bias" "toxicity" "hallucination" "position-swapping" "noise-injection" "legality")
 
 for category in "${categories[@]}"
 do
