@@ -54,7 +54,7 @@ def process_data(data_path):
                 data_list.append(new_result)
                 cnt += 1
 
-    elif "hallcuination" in data_path:
+    elif "hallucination" in data_path:
         for i in range(n):
             for j in range(2):
                 new_result = INPUT_DICT.copy()
@@ -83,7 +83,9 @@ def process_data(data_path):
                 else:
                     base_name = os.path.basename(data.iat[i, 0])
                     name, ext = os.path.splitext(base_name)
-                    new_result["img_url"] = os.path.join(img_base, f"{name}_noise{ext}")
+                    new_result["img_url"] = os.path.join(
+                        img_base, "imgs/", f"{name}_noise{ext}"
+                    )
                     new_result["type"] = "add_noise"
                 new_result["lan"] = data.iat[i, 4]
                 cnt += 1
