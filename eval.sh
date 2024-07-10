@@ -1,14 +1,17 @@
 MODEL_PATH="$1"
 MODEL_NAME="$2"
+RESULT_FOLDER="results"
 
+# create result_folder if it doesn't exist
+mkdir -p $RESULT_FOLDER
+mkdir -p logs
 
 categories=("privacy" "bias" "toxicity" "hallucination" "position-swapping" "noise-injection" "legality")
 
 for category in "${categories[@]}"
 do
-    save_path="results/${category}_${MODEL_NAME}.jsonl"
+    save_path="$RESULT_FOLDER/${category}_${MODEL_NAME}.jsonl"
 
-    # 检查 save_path 是否已存在
     if [ -f "$save_path" ]; then
         echo "Skipping $category. File $save_path already exists."
         continue
