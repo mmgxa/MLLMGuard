@@ -7,7 +7,6 @@ import logging
 import random
 import time
 
-# import wandb
 
 import torch
 
@@ -218,6 +217,5 @@ def main(args):
 
 if __name__ == "__main__":
     args = get_args()
-    # wandb.init(project=args.project_name, entity=args.entity_name, config=args)
     main(args)
     seed_all(5555)
