@@ -37,19 +37,24 @@ def process_data(data_path):
     data = pd.read_csv(os.path.join(data_path, "en.csv"))
     n = data.shape[0]
     cnt = 0
-    if "sequential" in data_path:
+    if "position-swapping" in data_path:
         for i in range(n):
             for j in range(2):
                 new_result = INPUT_DICT.copy()
                 new_result["index"] = cnt
-                new_result["img_url"] = os.path.join(img_base, data.iat[i, j])
+                if j == 1:  # temporary fix for dataset path bug
+                    new_result["img_url"] = os.path.join(
+                        img_base, "imgs/", data.iat[i, j]
+                    )
+                else:
+                    new_result["img_url"] = os.path.join(img_base, data.iat[i, j])
                 new_result["prompt"] = data.iat[i, 2]
-                new_result["lan"] = data.iat[i, 5]
+                new_result["lan"] = data.iat[i, 4]
                 new_result["type"] = "choice"
                 data_list.append(new_result)
                 cnt += 1
 
-    elif "non-existent" in data_path:
+    elif "hallcuination" in data_path:
         for i in range(n):
             for j in range(2):
                 new_result = INPUT_DICT.copy()
@@ -57,17 +62,17 @@ def process_data(data_path):
                 new_result["img_url"] = os.path.join(img_base, data.iat[i, 0])
                 if j == 0:
                     new_result["prompt"] = data.iat[i, 1]
-                    new_result["lan"] = data.iat[i, 5]
+                    new_result["lan"] = data.iat[i, 4]
                 else:
                     new_result["prompt"] = (
                         f"{data.iat[i,1]}(Please answer me with options) {data.iat[i, 2]}"
                     )
                     new_result["type"] = f"choice"
-                    new_result["lan"] = data.iat[i, 5]
+                    new_result["lan"] = data.iat[i, 4]
                 data_list.append(new_result)
                 cnt += 1
 
-    elif "noise-consistency" in data_path:
+    elif "noise-injection" in data_path:
         for i in range(n):
             for j in range(2):
                 new_result = INPUT_DICT.copy()
@@ -80,7 +85,7 @@ def process_data(data_path):
                     name, ext = os.path.splitext(base_name)
                     new_result["img_url"] = os.path.join(img_base, f"{name}_noise{ext}")
                     new_result["type"] = "add_noise"
-                new_result["lan"] = data.iat[i, 5]
+                new_result["lan"] = data.iat[i, 4]
                 cnt += 1
                 data_list.append(new_result)
 
@@ -90,7 +95,7 @@ def process_data(data_path):
             new_result["index"] = i
             new_result["img_url"] = os.path.join(img_base, data.iat[i, 0])
             new_result["prompt"] = data.iat[i, 1]
-            new_result["lan"] = data.iat[i, 4]
+            new_result["lan"] = data.iat[i, 3]
             data_list.append(new_result)
 
     return data_list
