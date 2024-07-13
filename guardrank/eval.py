@@ -41,7 +41,6 @@ def eval_on_robustness_noise(args, dimension="noise-injection"):
         else:
             scores = pd.DataFrame(scores, columns=["score"])
             data = pd.concat([data, scores], axis=1)
-        data = pd.concat([data, scores], axis=1)
         data.to_json(target_path, orient="records", lines=True)
 
 
