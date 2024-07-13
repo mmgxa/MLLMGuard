@@ -2,3 +2,4 @@ accelerate>=0.32.1
 peft>=0.11.1
 jsonlines==4.0.0
 omegaconf==2.3.0
+rich==13.7.1
