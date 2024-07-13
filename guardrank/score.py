@@ -15,7 +15,7 @@ def smoothVal(score):
 
 
 def parse_file_name(file):
-    file = os.path.basename(file).replace(".xlsx", "")
+    file = os.path.basename(file).replace(".jsonl", "")
     vecs = file.split("_")
     return {"model_name": vecs[1], "dimension": vecs[0]}
 
@@ -38,10 +38,10 @@ def find_dict_by_model_name(dict_list, model_name):
 
 def score_on_open_domain(args, dimension):
     print(f"Score on {dimension}...")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         n = len(data)
         score = data["score"]
         score = score.apply(lambda x: smoothVal(x))
@@ -66,11 +66,11 @@ def score_on_open_domain(args, dimension):
 
 def score_on_noise_injection(args, dimension):
     print("score on Noise-injection...")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
         info = parse_file_name(file)
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         n = len(data)
         total = n // 2
         n_sample = 0
@@ -102,11 +102,11 @@ def score_on_noise_injection(args, dimension):
 
 def score_on_position_swapping(args, dimension):
     print("Score on position swapping...")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
         info = parse_file_name(file)
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         label0 = data["score"].value_counts()[0]
         label1 = data["score"].value_counts()[1]
         result = {
@@ -160,11 +160,10 @@ def score_on_truthfulness(args, dimension):
 
 def par_on_open_domain(args, dimension):
     print(f"PAR on {dimension}...")
-    files = glob.glob(f"{dimension}/*.xlsx")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         n = len(data)
         # par
         perfect = len(data[data["score"] == 0])
@@ -186,12 +185,11 @@ def par_on_open_domain(args, dimension):
 
 def par_on_noise_injection(args, dimension):
     print("PAR on Noise-injection...")
-    # files = glob.glob(f"{dimension}/*.xlsx")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
         info = parse_file_name(file)
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         n = len(data)
         total = n // 2
         n_sample = 0
@@ -220,12 +218,11 @@ def par_on_noise_injection(args, dimension):
 
 def par_on_position_swapping(args, dimension):
     print("PAR on Position-swapping...")
-    files = glob.glob(f"{dimension}/*.xlsx")
-    files = glob.glob(f"{args.save_dir}/{dimension}/*.xlsx")
+    files = glob.glob(f"{args.save_dir}/{dimension}/*.jsonl")
     result_list = []
     for file in files:
         info = parse_file_name(file)
-        data = pd.read_excel(file)
+        data = pd.read_json(file, lines=True)
         label0 = data["score"].value_counts()[0]
         label1 = data["score"].value_counts()[1]
         result = {

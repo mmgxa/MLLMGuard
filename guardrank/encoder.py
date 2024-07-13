@@ -169,7 +169,7 @@ def evaluate(args):
     for evaluate_model in args.models:
         filepath = os.path.join(args.data_dir, f"hallucination_{evaluate_model}.jsonl")
         target_path = os.path.join(
-            args.save_dir, "hallucination", f"hallucination_{evaluate_model}.xlsx"
+            args.save_dir, "hallucination", f"hallucination_{evaluate_model}.jsonl"
         )
         if os.path.exists(target_path):
             print(f"File {target_path} has existed.")
@@ -195,4 +195,4 @@ def evaluate(args):
 
         results = pd.DataFrame(result_list, columns=["score"])
         results = pd.concat([eval_df, results], axis=1)
-        results.to_excel(target_path, index=None)
+        results.to_json(target_path, orient="records", lines=True)

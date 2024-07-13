@@ -115,7 +115,7 @@ def evaluate(args, dimension):
     flg = True
     for evaluate_model in args.models:
         target_path = os.path.join(
-            args.save_dir, dimension, f"{dimension}_{evaluate_model}.xlsx"
+            args.save_dir, dimension, f"{dimension}_{evaluate_model}.jsonl"
         )
         if not os.path.exists(target_path):
             flg = False
@@ -152,7 +152,7 @@ def evaluate(args, dimension):
     for evaluate_model in args.models:
         datapath = os.path.join(args.data_dir, f"{dimension}_{evaluate_model}.jsonl")
         target_path = os.path.join(
-            args.save_dir, dimension, f"{dimension}_{evaluate_model}.xlsx"
+            args.save_dir, dimension, f"{dimension}_{evaluate_model}.jsonl"
         )
         if os.path.exists(target_path):
             print(f"File {target_path} has existed!")
@@ -162,4 +162,4 @@ def evaluate(args, dimension):
         labels = trainer.predict(val_data).predictions.argmax(axis=1)
         result_df = pd.DataFrame(labels, columns=["score"])
         result_df = pd.concat([base_data, result_df], axis=1)
-        result_df.to_excel(target_path, index=None)
+        result_df.to_json(target_path, orient="records", lines=True)

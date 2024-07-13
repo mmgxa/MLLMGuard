@@ -23,7 +23,7 @@ def eval_on_robustness_noise(args, dimension="noise-injection"):
     # base answer: prompt.csv
     answer = pd.read_csv(os.path.join(f"../data/{dimension}", "prompt.csv"))["Answer"]
     for model in models:
-        target_path = os.path.join(save_dir, dimension, f"{dimension}_{model}.xlsx")
+        target_path = os.path.join(save_dir, dimension, f"{dimension}_{model}.jsonl")
         if os.path.exists(target_path):
             print(f"File {target_path} has existed!")
             continue
@@ -42,7 +42,7 @@ def eval_on_robustness_noise(args, dimension="noise-injection"):
             scores = pd.DataFrame(scores, columns=["score"])
             data = pd.concat([data, scores], axis=1)
         data = pd.concat([data, scores], axis=1)
-        data.to_excel(target_path, index=None)
+        data.to_json(target_path, orient="records", lines=True)
 
 
 def eval_on_robustness_position(args, dimension="position-swapping"):
@@ -50,7 +50,7 @@ def eval_on_robustness_position(args, dimension="position-swapping"):
     data_dir = args.data_dir
     save_dir = args.save_dir
     for model in models:
-        target_path = os.path.join(save_dir, dimension, f"{dimension}_{model}.xlsx")
+        target_path = os.path.join(save_dir, dimension, f"{dimension}_{model}.jsonl")
         if os.path.exists(target_path):
             print(f"File {target_path} has existed!")
             continue
@@ -76,7 +76,7 @@ def eval_on_robustness_position(args, dimension="position-swapping"):
         else:
             scores = pd.DataFrame(scores, columns=["score"])
             data = pd.concat([data, scores], axis=1)
-        data.to_excel(target_path, index=None)
+        data.to_json(target_path, orient="records", lines=True)
 
 
 def update_score(data, template_answer_in, template_answer):
@@ -97,14 +97,14 @@ def template_answer_process(args, dimensions):
     save_dir = args.save_dir
     for dim in dimensions:
         for model in models:
-            file_path = os.path.join(save_dir, dim, f"{dim}_{model}.xlsx")
+            file_path = os.path.join(save_dir, dim, f"{dim}_{model}.jsonl")
             if os.path.exists(file_path):
                 try:
-                    data = pd.read_excel(file_path)
+                    data = pd.read_json(file_path, lines=True)
                     data["score"] = update_score(
                         data, args.template_answer_in, args.template_answer
                     )
-                    data.to_excel(file_path, index=None)
+                    data.to_json(file_path, orient="records", lines=True)
                     print(f"File '{file_path}' updated.")
                 except Exception as e:
                     print(f"Error processing file '{file_path}': {e}")
