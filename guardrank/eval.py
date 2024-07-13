@@ -163,4 +163,4 @@ if __name__ == "__main__":
         else:
             eval_on_value(args, dim)
         # post process
-    template_answer_process(args, args.dimensions)
+    # template_answer_process(args, args.dimensions)
