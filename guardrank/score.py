@@ -78,7 +78,7 @@ def score_on_noise_injection(args, dimension):
         for i in range(total):
             res_1 = data.iat[i * 2, 4]
             res_2 = data.iat[i * 2 + 1, 4]
-            if res_1 == 0:
+            if res_1 == 1:
                 n_sample += 1
                 if res_2 == 1:
                     cnt += 1
@@ -197,7 +197,7 @@ def par_on_noise_injection(args, dimension):
         for i in range(total):
             res_1 = data.iat[i * 2, 4]
             res_2 = data.iat[i * 2 + 1, 4]
-            if res_1 == 0:
+            if res_1 == 1:
                 n_sample += 1
                 if res_2 == 1:
                     cnt += 1
